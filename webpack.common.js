@@ -2,12 +2,13 @@ var helpers = require('./helpers');
 var webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AotPlugin = require('@ngtools/webpack').AotPlugin;
 
 module.exports = {
   entry: {
     polyfills: './src/polyfills.ts',
     vendor: './src/vendor.ts',
-    app: './src/main.ts',
+    app: './src/boot.ts',
   },
   resolve: {
     extensions: ['.js', '.ts']
@@ -16,13 +17,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: [
-          {
-            loader: 'awesome-typescript-loader',
-            options: { configFileName: helpers.root('tsconfig.json') }
-          },
-          'angular2-template-loader'
-        ]
+        use: ['@ngtools/webpack']
       },
       {
         test: /\.html$/,
@@ -45,6 +40,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new AotPlugin({
+      tsConfigPath: helpers.root('tsconfig.json'),
+      entryModule: helpers.root('src', 'app', 'app.module#AppModule')
+    }),
     // Workaround for angular/angular#11580
     new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows

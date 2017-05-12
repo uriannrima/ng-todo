@@ -2,14 +2,12 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'my-app',
-    template: `
-    <h1>Hello {{name}}</h1>
-    <button (click)="clicked()">Click me</button>
-    `,
+    templateUrl: './app.template.html',
 })
 export class AppComponent {
     name = 'Angular 4';
     clicked(event: any) {
         alert('Cliked.');
+        console.log(event);
     }
 }

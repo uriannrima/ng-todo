@@ -3,6 +3,8 @@
 # compiled output
 /dist
 /tmp
+/aot
+/.vscode
 
 # dependencies
 /node_modules
